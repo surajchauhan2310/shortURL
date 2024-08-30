@@ -1,8 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const shortId = require("shortid"); //Importing shortId
-shortId.generate(); //Function for generating the short id
+// const shortId = require("shortid"); //Importing shortId npm package for creating the short URL's
 app.use(express.json());
 const PORT = 4500;
 
@@ -23,8 +22,6 @@ const generateRandomString = (len) => {
   return result;
 };
 
-// -----------------------------------
-
 //Creating a Schema for the mongoDB
 const shortURLSchema = new mongoose.Schema(
   {
@@ -43,7 +40,6 @@ const shortURLSchema = new mongoose.Schema(
   }
 );
 
-
 const urlModel = mongoose.model("shortURL", shortURLSchema);
 
 const saveURL = async (fullURL, shortURL) => {
@@ -54,23 +50,6 @@ const saveURL = async (fullURL, shortURL) => {
   return data;
 };
 
-//POST method
-app.post("/", async (req, res) => {
-  let code = generateRandomString(8);
-  const result = await saveURL(req.body.fullURL, code);
-  res.json(result);
-  console.log(result);
-});
-
-//GET method
-app.get("/:shortURL", async (req, res) => {
-  const result = await urlModel.findOne({
-    shortURL: req.params.shortURL,
-  });
-  if (result == null) return res.sendStatus(404);
-  console.log("Result is ==>", result);
-  return res.redirect(result.fullURL);
-});
 //PORT listening
 app.listen(PORT);
 console.log("app listening at", PORT);
