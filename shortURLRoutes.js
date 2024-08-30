@@ -1,10 +1,17 @@
 const express = require("express");
-const app = express();
+const { generateRandomString } = require("./utils");
+const urlModel = require("./model");
 const router = express.Router();
-const { generateRandomString, saveURL, urlModel } = require("./index");
 
+const saveURL = async (fullURL, shortURL) => {
+  let data = await urlModel.create({
+    fullURL: fullURL,
+    shortURL: shortURL,
+  });
+  return data;
+};
 //POST method
-app.post("/", async (req, res) => {
+router.post("/", async (req, res) => {
   let code = generateRandomString(8);
   const result = await saveURL(req.body.fullURL, code);
   res.json(result);
@@ -12,7 +19,7 @@ app.post("/", async (req, res) => {
 });
 
 //GET method
-app.get("/:shortURL", async (req, res) => {
+router.get("/:shortURL", async (req, res) => {
   const result = await urlModel.findOne({
     shortURL: req.params.shortURL,
   });
@@ -21,4 +28,4 @@ app.get("/:shortURL", async (req, res) => {
   return res.redirect(result.fullURL);
 });
 
-module.exports = Router;
+module.exports = router;

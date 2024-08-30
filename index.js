@@ -1,55 +1,13 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-// const shortId = require("shortid"); //Importing shortId npm package for creating the short URL's
 app.use(express.json());
 const PORT = 4500;
+const router = require("./shortURLRoutes");
 
-//mongoose connection
-mongoose.connect("mongodb://localhost:27017/Bitly");
+mongoose.connect("mongodb://localhost:27017/Bitly"); //mongoose connection
 
-//Creating the tiny URL's
-const generateRandomString = (len) => {
-  let result = "";
-  for (let i = 0; i < len; i++) {
-    // Generate a random character code for either uppercase (65-90) or lowercase (97-122)
-    const randomCharCode =
-      Math.random() < 0.5
-        ? Math.floor(Math.random() * 26) + 65 // Uppercase letters A-Z
-        : Math.floor(Math.random() * 26) + 97; // Lowercase letters a-z
-    result += String.fromCharCode(randomCharCode);
-  }
-  return result;
-};
-
-//Creating a Schema for the mongoDB
-const shortURLSchema = new mongoose.Schema(
-  {
-    fullURL: {
-      type: String,
-      required: true,
-    },
-    shortURL: {
-      type: String,
-      required: true,
-      //   default: shortId.generate,
-    },
-  },
-  {
-    collection: "shortURL",
-  }
-);
-
-const urlModel = mongoose.model("shortURL", shortURLSchema);
-
-const saveURL = async (fullURL, shortURL) => {
-  let data = await urlModel.create({
-    fullURL: fullURL,
-    shortURL: shortURL,
-  });
-  return data;
-};
-
+app.use(router);
 //PORT listening
 app.listen(PORT);
 console.log("app listening at", PORT);
