@@ -1,0 +1,21 @@
+{
+  "name": "bitlypractice",
+  "version": "1.0.0",
+  "description": "Bitly app demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Bitly"
+  ],
+  "author": "Suraj",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.6.0",
+    "shortid": "^2.2.16"
+  }
+}
