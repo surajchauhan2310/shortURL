@@ -1,9 +1,10 @@
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
-app.use(express.json());
-const PORT = 4500;
 const router = require("./shortURLRoutes");
+
+const app = express();
+app.use(express.json());
+const PORT = 4600;
 
 mongoose.connect("mongodb://localhost:27017/Bitly"); //mongoose connection
 
